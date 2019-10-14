@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "gc_details.h"
 #include "gc_iterator.h"
+
 /*
     Pointer implements a pointer type that uses
     garbage collection to release unused memory.
@@ -17,24 +18,28 @@ class Pointer{
 private:
     // refContainer maintains the garbage collection list.
     static std::list<PtrDetails<T> > refContainer;
+
     // addr points to the allocated memory to which
     // this Pointer pointer currently points.
     T *addr;
+
     /*  isArray is true if this Pointer points
         to an allocated array. It is false
         otherwise.
     */
-    bool isArray;
-    // true if pointing to array
+    bool isArray; // true if pointing to array
+
     // If this Pointer is pointing to an allocated
     // array, then arraySize contains its size.
     unsigned arraySize; // size of the array
     static bool first; // true when first Pointer is created
+
     // Return an iterator to pointer details in refContainer.
     typename std::list<PtrDetails<T> >::iterator findPtrInfo(T *ptr);
 public:
     // Define an iterator type for Pointer<T>.
     typedef Iter<T> GCiterator;
+
     // Empty constructor
     // NOTE: templates aren't able to have prototypes with default arguments
     // this is why constructor is designed like this:
@@ -42,29 +47,39 @@ public:
         Pointer(NULL);
     }
     Pointer(T*);
+
     // Copy constructor.
     Pointer(const Pointer &);
+
     // Destructor for Pointer.
     ~Pointer();
+
     // Collect garbage. Returns true if at least
     // one object was freed.
     static bool collect();
+
     // Overload assignment of pointer to Pointer.
     T *operator=(T *t);
+
     // Overload assignment of Pointer to Pointer.
     Pointer &operator=(Pointer &rv);
+
     // Return a reference to the object pointed
     // to by this Pointer.
     T &operator*(){
         return *addr;
     }
+
     // Return the address being pointed to.
     T *operator->() { return addr; }
+
     // Return a reference to the object at the
     // index specified by i.
     T &operator[](int i){ return addr[i];}
+
     // Conversion function to T *.
     operator T *() { return addr; }
+
     // Return an Iter to the start of the allocated memory.
     Iter<T> begin(){
         int _size;
@@ -74,6 +89,7 @@ public:
             _size = 1;
         return Iter<T>(addr, addr, addr + _size);
     }
+
     // Return an Iter to one past the end of an allocated array.
     Iter<T> end(){
         int _size;
@@ -83,10 +99,13 @@ public:
             _size = 1;
         return Iter<T>(addr + _size, addr, addr + _size);
     }
+
     // Return the size of refContainer for this type of Pointer.
     static int refContainerSize() { return refContainer.size(); }
+
     // A utility function that displays refContainer.
     static void showlist();
+
     // Clear refContainer when program exits.
     static void shutdown();
 };
@@ -110,6 +129,7 @@ Pointer<T,size>::Pointer(T *t){
     // Lab: Smart Pointer Project Lab
 
 }
+
 // Copy constructor.
 template< class T, int size>
 Pointer<T,size>::Pointer(const Pointer &ob){
@@ -146,6 +166,7 @@ T *Pointer<T, size>::operator=(T *t){
     // LAB: Smart Pointer Project Lab
 
 }
+
 // Overload assignment of Pointer to Pointer.
 template <class T, int size>
 Pointer<T, size> &Pointer<T, size>::operator=(Pointer &rv){
@@ -177,6 +198,7 @@ void Pointer<T, size>::showlist(){
     }
     std::cout << std::endl;
 }
+
 // Find a pointer in refContainer.
 template <class T, int size>
 typename std::list<PtrDetails<T> >::iterator
@@ -188,6 +210,7 @@ Pointer<T, size>::findPtrInfo(T *ptr){
             return p;
     return p;
 }
+
 // Clear refContainer when program exits.
 template <class T, int size>
 void Pointer<T, size>::shutdown(){
