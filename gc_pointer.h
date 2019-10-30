@@ -156,12 +156,32 @@ Pointer<T, size>::~Pointer(){
 // Collect garbage. Returns true if at least
 // one object was freed.
 template <class T, int size>
-bool Pointer<T, size>::collect(){
+bool Pointer<T, size>::collect() {
+    typename std::list<PtrDetails<T> >::iterator p;
+    bool memFreed = false;
+    do {
+        // scan through refContainer looking for unreferenced pointers
+        for (p = refContainer.begin(); p != refContainer.end(); p++) {
+            // if in-use skip
+            if (p->refcount > 0)
+                continue;
+            memFreed = true;
+            // Remove unused entry from refContainer
+            refContainer.remove(*p);
 
-    // TODO: Implement collect function
-    // LAB: New and Delete Project Lab
-    // Note: collect() will be called in the destructor
-    return false;
+            // Free memory unless the pointer is null
+            if (p->memPtr) {
+                if (p->isArray) {
+                    delete [] p->memPtr;
+                } else {
+                    delete p->memPtr;
+                }
+            }
+            // Restart the search
+            break;
+        }
+    } while (p != refContainer.end());
+    return memFreed;
 }
 
 // Overload assignment of pointer to Pointer.
