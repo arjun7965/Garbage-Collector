@@ -142,9 +142,15 @@ Pointer<T,size>::Pointer(const Pointer &ob){
 // Destructor for Pointer.
 template <class T, int size>
 Pointer<T, size>::~Pointer(){
+    typename std::list<PtrDetails<T> >::iterator p;
+    p = findPtrInfo(addr);
 
-    // TODO: Implement Pointer destructor
-    // Lab: New and Delete Project Lab
+    // decrement the refcount
+    if (p->refcount) {
+        p->refcount--;
+    }
+    // collect garbage when pointer goes out of scope
+    collect();
 }
 
 // Collect garbage. Returns true if at least
