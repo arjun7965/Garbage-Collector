@@ -21,7 +21,7 @@ class PtrDetails
     // the size of the array.
 
     // PtrDetails Constructor
-    PtrDetails(T *ptr, unsigned int size = 0)
+    PtrDetails(T *ptr, unsigned int size = 0) : memPtr(ptr), arraySize(size)
     {
         // check size to know if it is an array
         if (size > 0) {
@@ -29,8 +29,6 @@ class PtrDetails
         } else {
             isArray = false;
         }
-        memPtr = ptr;
-        arraySize = size;
         refcount = 1;
     }
 };
