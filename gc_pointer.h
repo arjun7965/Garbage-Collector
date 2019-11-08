@@ -119,15 +119,20 @@ bool Pointer<T, size>::first = true;
 
 // Constructor for both initialized and uninitialized objects. -> see class interface
 template<class T,int size>
-Pointer<T,size>::Pointer(T *t){
+Pointer<T,size>::Pointer(T *t) : addr(t), arraySize(size) {
     // Register shutdown() as an exit function.
     if (first)
         atexit(shutdown);
     first = false;
 
-    // TODO: Implement Pointer constructor
-    // Lab: Smart Pointer Project Lab
+    if (size > 0) {
+        isArray = true;
+    } else {
+        isArray = false;
+    }
 
+    // push the new block of memory to refContainer
+    refContainer.push_back(PtrDetails<T>(t, size));
 }
 
 // Copy constructor.
