@@ -20,9 +20,18 @@ class PtrDetails
     // If this is an array, then size specifies
     // the size of the array.
 
-    PtrDetails(void)
+    // PtrDetails Constructor
+    PtrDetails(T *ptr, unsigned int size = 0)
     {
-        // TODO: Implement PtrDetails
+        // check size to know if it is an array
+        if (size > 0) {
+            isArray = true;
+        } else {
+            isArray = false;
+        }
+        memPtr = ptr;
+        arraySize = size;
+        refcount = 1;
     }
 };
 
