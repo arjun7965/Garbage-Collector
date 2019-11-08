@@ -137,11 +137,19 @@ Pointer<T,size>::Pointer(T *t) : addr(t), arraySize(size) {
 
 // Copy constructor.
 template< class T, int size>
-Pointer<T,size>::Pointer(const Pointer &ob){
+Pointer<T,size>::Pointer(const Pointer &ob) {
+    typename std::list<PtrDetails<T> >::iterator p;
+    p = findPtrInfo(ob.addr);
 
-    // TODO: Implement Pointer constructor
-    // Lab: Smart Pointer Project Lab
-
+    // increment the refcount
+    p->refcount++;
+    addr = ob.addr;
+    arraySize = ob.arraySize;
+    if (arraySize > 0) {
+        isArray = true;
+    } else {
+        isArray = false;
+    }
 }
 
 // Destructor for Pointer.
