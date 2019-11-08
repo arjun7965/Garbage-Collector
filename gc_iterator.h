@@ -4,7 +4,14 @@
 //
 class OutOfRangeExc
 {
-    // Add functionality if needed by your application.
+  public:
+    explicit OutOfRangeExc(std::string err) : m_error(err)
+    {
+        std::cout << m_error << std::endl;
+    }
+
+  private:
+    std::string m_error;
 };
 
 
@@ -49,7 +56,7 @@ class Iter
     T &operator*()
     {
         if ((ptr >= end) || (ptr < begin))
-            throw OutOfRangeExc();
+            throw OutOfRangeExc("Pointer out-of-bounds");
         return *ptr;
     }
 
@@ -58,7 +65,7 @@ class Iter
     T *operator->()
     {
         if ((ptr >= end) || (ptr < begin))
-            throw OutOfRangeExc();
+            throw OutOfRangeExc("Pointer out-of-bounds");
         return ptr;
     }
 
