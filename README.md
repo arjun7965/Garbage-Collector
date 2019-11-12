@@ -4,6 +4,11 @@ version of a smart pointer. You can think of this as implementing your own
 garbage collector, to use a concept from other programming languages. This program is used to
 verify that your implementation does not have any memory leaks!
 
+#### Output
+The output of this project should looks like this: (No Memory Leak)
+
+![System Monitor](images/OutputWithNoLeak.png)
+
 # Building
 To build this project, you will need a C++ compiler. The `make` script provided
 assumes the GCC compiler, however you may substitute an equivalent C++ compiler
