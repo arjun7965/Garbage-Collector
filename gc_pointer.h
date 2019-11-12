@@ -223,10 +223,27 @@ T *Pointer<T, size>::operator=(T *t){
 // Overload assignment of Pointer to Pointer.
 template <class T, int size>
 Pointer<T, size> &Pointer<T, size>::operator=(Pointer &rv){
+    typename std::list<PtrDetails<T> >::iterator p;
 
-    // TODO: Implement operator==
-    // LAB: Smart Pointer Project Lab
+    if (this->addr == rv.addr) {
+        return this;
+    }
 
+    // decrease the refcount of the current memory block
+    // being pointed to
+    p = findPtrInfo(addr);
+    if (p->refcount) {
+        p->refcount--;
+    }
+
+    // increment the reference count of the new memory block
+    p = findPtrInfo(rv.addr);
+    if (p->refcount) {
+        p->refcount++;
+    }
+    addr = rv.addr;
+    arraySize = rv.arraySize;
+    return rv;
 }
 
 // A utility function that displays refContainer.
