@@ -124,7 +124,6 @@ namespace __Tester__ {
       else
         std::fprintf(output, "\n\nGREAT JOB! YOU DO NOT HAVE MEMORY LEAKAGE\n\n");
       if(output != stdout) fclose(output);
-      std::system("PAUSE");
     }
   } reporter;
   void Terminator() {
