@@ -200,10 +200,24 @@ bool Pointer<T, size>::collect() {
 // Overload assignment of pointer to Pointer.
 template <class T, int size>
 T *Pointer<T, size>::operator=(T *t){
+    typename std::list<PtrDetails<T> >::iterator p;
 
-    // TODO: Implement operator==
-    // LAB: Smart Pointer Project Lab
+    // decrease the refcount of the current memory block
+    p = findPtrInfo(addr);
+    if (p->refcount) {
+        p->refcount--;
+    }
 
+    // search for t in refcontainer, if it exists increment refcount
+    // else add the memory block to refContainer
+    p = findPtrInfo(t);
+    if (p != refContainer.end()) {
+        p->refcount++;
+    } else {
+        refContainer.push_back(PtrDetails<T> (t, size));
+    }
+    addr = t;
+    return addr;
 }
 
 // Overload assignment of Pointer to Pointer.
