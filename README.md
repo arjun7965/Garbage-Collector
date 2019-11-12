@@ -9,6 +9,10 @@ The output of this project should looks like this: (No Memory Leak)
 
 ![System Monitor](images/OutputWithNoLeak.png)
 
+If there's a memory leak, the output would look something like this:
+
+![System Monitor](images/OutputWithLeak.png)
+
 # Building
 To build this project, you will need a C++ compiler. The `make` script provided
 assumes the GCC compiler, however you may substitute an equivalent C++ compiler
