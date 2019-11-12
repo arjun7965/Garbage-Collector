@@ -105,7 +105,7 @@ class Iter
     T &operator[](int i)
     {
         if ((i < 0) || (i >= (end - begin)))
-            throw OutOfRangeExc();
+            throw OutOfRangeExc("Pointer out-of-bounds");
         return ptr[i];
     }
 
